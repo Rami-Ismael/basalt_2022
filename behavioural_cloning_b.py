@@ -10,7 +10,6 @@ import time
 import datetime
 
 import gym
-import minerl
 import torch 
 import numpy as np
 
@@ -63,13 +62,16 @@ def behavioural_cloning_train(data_dir, in_model, in_weights, out_weights):
     # To create model with the right environment.
     # All basalt environments have the same settings, so any of them works here
     env = gym.make("MineRLBasaltFindCave-v0")
+    ## Load model agents
     agent = MineRLAgent(env, device=DEVICE, policy_kwargs=agent_policy_kwargs, pi_head_kwargs=agent_pi_head_kwargs)
     agent.load_weights(in_weights)
 
     env.close()
 
     policy = agent.policy
-
+    
+    
+    ## this asking the user they are using the full dataset. if there not using the full traning they want do inference.
     if USING_FULL_DATASET:
         trainable_parameters = policy.parameters()
     else:
